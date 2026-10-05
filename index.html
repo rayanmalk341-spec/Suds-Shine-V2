@@ -146,6 +146,85 @@ menu.addEventListener('click',()=>{
   n.style.background='rgba(8,10,13,.98)';
   n.style.border='1px solid rgba(255,255,255,.1)';
   n.style.borderRadius='18px';
+<script>
+const header = document.getElementById('header');
+
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 30);
+});
+
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+document.querySelectorAll('.faq-q').forEach((button) => {
+  button.addEventListener('click', () => {
+    button.parentElement.classList.toggle('open');
+  });
+});
+
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const quoteForm = document.getElementById('quoteForm');
+
+quoteForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const name = document.getElementById('name').value;
+  const vehicle = document.getElementById('vehicle').value;
+  const service = document.getElementById('service').value;
+  const phone = document.getElementById('phone').value;
+  const message = document.getElementById('message').value;
+
+  const quoteMessage =
+`Hello Sud's & Shine! 👋
+
+I'd like to request a quote.
+
+Name: ${name}
+Vehicle: ${vehicle}
+Service: ${service}
+Preferred Contact: ${phone}
+
+Message:
+${message}
+
+Sent from the Sud's & Shine website.`;
+
+  navigator.clipboard.writeText(quoteMessage).then(() => {
+    window.open('https://m.me/Sudsshinel', '_blank');
+
+    setTimeout(() => {
+      alert('Your quote details have been copied. Messenger is open — paste the message and tap Send.');
+    }, 500);
+  }).catch(() => {
+    alert('Please copy your quote details and send them to us on Messenger.');
+    window.open('https://m.me/Sudsshinel', '_blank');
+  });
+});
+
+const menu = document.getElementById('menu');
+
+menu.addEventListener('click', () => {
+  const nav = document.querySelector('.navlinks');
+
+  nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+  nav.style.position = 'absolute';
+  nav.style.top = '78px';
+  nav.style.left = '14px';
+  nav.style.right = '14px';
+  nav.style.padding = '18px';
+  nav.style.flexDirection = 'column';
+  nav.style.background = 'rgba(8,10,13,.98)';
+  nav.style.border = '1px solid rgba(255,255,255,.1)';
+  nav.style.borderRadius = '18px';
 });
 </script>
-</body></html>
+</body>
+</html>
