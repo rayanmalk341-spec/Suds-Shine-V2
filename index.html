@@ -63,5 +63,89 @@ document.querySelectorAll('.faq-q').forEach(b=>b.addEventListener('click',()=>b.
 document.getElementById('year').textContent=new Date().getFullYear();
 document.getElementById('quoteForm').addEventListener('submit',e=>{e.preventDefault();const n=document.getElementById('name').value,v=document.getElementById('vehicle').value,s=document.getElementById('service').value,p=document.getElementById('phone').value,m=document.getElementById('message').value;const subject=encodeURIComponent("Quote Request — "+v);const body=encodeURIComponent(`Name: ${n}\nVehicle: ${v}\nService: ${s}\nPreferred contact: ${p}\n\nMessage:\n${m}`);location.href=`mailto:sudsshine95@gmail.com?subject=${subject}&body=${body}`});
 const menu=document.getElementById('menu');menu.addEventListener('click',()=>{const n=document.querySelector('.navlinks');n.style.display=n.style.display==='flex'?'none':'flex';n.style.position='absolute';n.style.top='78px';n.style.left='14px';n.style.right='14px';n.style.padding='18px';n.style.flexDirection='column';n.style.background='rgba(8,10,13,.98)';n.style.border='1px solid rgba(255,255,255,.1)';n.style.borderRadius='18px'});
+<script>
+const header=document.getElementById('header');
+
+window.addEventListener('scroll',()=>{
+  header.classList.toggle('scrolled',scrollY>30);
+});
+
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting)e.target.classList.add('visible')
+  })
+},{threshold:.08});
+
+document.querySelectorAll('.reveal').forEach(x=>io.observe(x));
+
+document.querySelectorAll('.faq-q').forEach(b=>{
+  b.addEventListener('click',()=>{
+    b.parentElement.classList.toggle('open')
+  })
+});
+
+document.getElementById('year').textContent=new Date().getFullYear();
+
+document.getElementById('quoteForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+
+  const n=document.getElementById('name').value;
+  const v=document.getElementById('vehicle').value;
+  const s=document.getElementById('service').value;
+  const p=document.getElementById('phone').value;
+  const m=document.getElementById('message').value;
+
+  const quoteMessage =
+`Hello Sud's & Shine! 👋
+
+I'd like to request a quote.
+
+Name: ${n}
+Vehicle: ${v}
+Service: ${s}
+Preferred Contact: ${p}
+
+Message:
+${m}
+
+Sent from the Sud's & Shine website.`;
+
+  try{
+    await navigator.clipboard.writeText(quoteMessage);
+  }catch(err){
+    const temp=document.createElement('textarea');
+    temp.value=quoteMessage;
+    document.body.appendChild(temp);
+    temp.select();
+    document.execCommand('copy');
+    temp.remove();
+  }
+
+  window.open('https://m.me/Sudsshinel','_blank');
+
+  setTimeout(()=>{
+    alert(
+      "Your quote request has been copied. " +
+      "Messenger is opening now — just paste the message and tap Send."
+    );
+  },500);
+});
+
+const menu=document.getElementById('menu');
+
+menu.addEventListener('click',()=>{
+  const n=document.querySelector('.navlinks');
+
+  n.style.display=n.style.display==='flex'?'none':'flex';
+  n.style.position='absolute';
+  n.style.top='78px';
+  n.style.left='14px';
+  n.style.right='14px';
+  n.style.padding='18px';
+  n.style.flexDirection='column';
+  n.style.background='rgba(8,10,13,.98)';
+  n.style.border='1px solid rgba(255,255,255,.1)';
+  n.style.borderRadius='18px';
+});
 </script>
 </body></html>
