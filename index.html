@@ -826,15 +826,37 @@ ${message || 'N/A'}
 Sent from the Sud's & Shine website.`;
 
   try {
-    await navigator.clipboard.writeText(quoteMessage);
+  // Messenger ko pehle open karte hain taake browser popup block na kare
+  const messengerWindow = window.open(
+    'https://m.me/Sudsshinel',
+    '_blank'
+  );
 
+  // Quote message clipboard mein copy
+  await navigator.clipboard.writeText(quoteMessage);
+
+  if (messengerWindow) {
     alert(
-      'Your quote details have been copied! Facebook Messenger will open next. Paste the message and tap Send.'
+      'Your quote details have been copied! Paste the message in Messenger and tap Send.'
     );
+  } else {
+    alert(
+      'Please allow pop-ups for this site. Your quote details have been copied.'
+    );
+  }
 
-    window.open('https://m.me/Sudsshinel', '_blank');
+} catch (error) {
 
-  } catch (error) {
+  // Agar clipboard permission fail ho jaye
+  const messengerWindow = window.open(
+    'https://m.me/Sudsshinel',
+    '_blank'
+  );
+
+  alert(
+    'Messenger is opening. Please copy your quote details and send them to Sud\'s & Shine.'
+  );
+}
 
     alert(
       'Messenger will open next. Please copy your quote details and send them to Sud\\'s & Shine.'
