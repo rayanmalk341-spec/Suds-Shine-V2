@@ -799,16 +799,18 @@ document.querySelectorAll('.faq-q').forEach((button) => {
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
-const quoteForm = document.getElementById('quoteForm');
-
-quoteForm.addEventListener('submit', async function(e) {
-  e.preventDefault();
+document.getElementById('sendQuoteBtn').addEventListener('click', async function() {
 
   const name = document.getElementById('name').value.trim();
   const vehicle = document.getElementById('vehicle').value.trim();
   const service = document.getElementById('service').value;
   const phone = document.getElementById('phone').value.trim();
   const message = document.getElementById('message').value.trim();
+
+  if (!name || !vehicle || !service) {
+    alert('Please fill in your name, vehicle and service.');
+    return;
+  }
 
   const quoteMessage =
 `Hello Sud's & Shine! 👋
@@ -826,37 +828,16 @@ ${message || 'N/A'}
 Sent from the Sud's & Shine website.`;
 
   try {
-  // Messenger ko pehle open karte hain taake browser popup block na kare
-  const messengerWindow = window.open(
-    'https://m.me/Sudsshinel',
-    '_blank'
-  );
 
-  // Quote message clipboard mein copy
-  await navigator.clipboard.writeText(quoteMessage);
+    await navigator.clipboard.writeText(quoteMessage);
 
-  if (messengerWindow) {
     alert(
-      'Your quote details have been copied! Paste the message in Messenger and tap Send.'
+      'Quote copied! Messenger will open next. Paste the message and tap Send.'
     );
-  } else {
-    alert(
-      'Please allow pop-ups for this site. Your quote details have been copied.'
-    );
-  }
 
-} catch (error) {
+    window.open('https://m.me/Sudsshinel', '_blank');
 
-  // Agar clipboard permission fail ho jaye
-  const messengerWindow = window.open(
-    'https://m.me/Sudsshinel',
-    '_blank'
-  );
-
-  alert(
-    'Messenger is opening. Please copy your quote details and send them to Sud\'s & Shine.'
-  );
-}
+  } catch (error) {
 
     alert(
       'Messenger will open next. Please copy your quote details and send them to Sud\\'s & Shine.'
@@ -864,6 +845,7 @@ Sent from the Sud's & Shine website.`;
 
     window.open('https://m.me/Sudsshinel', '_blank');
   }
+
 });
 
 const menu = document.getElementById('menu');
