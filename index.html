@@ -799,18 +799,14 @@ document.querySelectorAll('.faq-q').forEach((button) => {
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
-document.getElementById('sendQuoteBtn').addEventListener('click', async function() {
+document.getElementById('quoteForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
 
   const name = document.getElementById('name').value.trim();
   const vehicle = document.getElementById('vehicle').value.trim();
   const service = document.getElementById('service').value;
   const phone = document.getElementById('phone').value.trim();
   const message = document.getElementById('message').value.trim();
-
-  if (!name || !vehicle || !service) {
-    alert('Please fill in your name, vehicle and service.');
-    return;
-  }
 
   const quoteMessage =
 `Hello Sud's & Shine! 👋
@@ -828,24 +824,13 @@ ${message || 'N/A'}
 Sent from the Sud's & Shine website.`;
 
   try {
-
     await navigator.clipboard.writeText(quoteMessage);
-
-    alert(
-      'Quote copied! Messenger will open next. Paste the message and tap Send.'
-    );
-
-    window.open('https://m.me/Sudsshinel', '_blank');
-
+    alert('Quote copied! Messenger will open next. Paste the message and tap Send.');
   } catch (error) {
-
-    alert(
-      'Messenger will open next. Please copy your quote details and send them to Sud\\'s & Shine.'
-    );
-
-    window.open('https://m.me/Sudsshinel', '_blank');
+    alert('Messenger will open next. Please type your quote details and send them to Sud\'s & Shine.');
   }
 
+  window.open('https://m.me/Sudsshinel', '_blank');
 });
 
 const menu = document.getElementById('menu');
